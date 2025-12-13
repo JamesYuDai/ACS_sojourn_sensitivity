@@ -103,6 +103,7 @@ traceplot(fit_stan, pars = c("sens", "lamb"), inc_warmup = TRUE, nrow = 2)
 ### prepare the data for stan
 ### all cancers; not anchoring age >50
 ### but still using weight
+### Fit the five state model
 ###
 
 
@@ -143,11 +144,11 @@ pairs(fit_stan,pars=c("sens_early","sens_late", "mst1", "mst2"))
 
 
 ###
-### use uninformative prior 
+### use Jeffery prior for sensitivity 
 ###
 
 names(cdat) <- c("ctype","dtime","tpos","weight","cstage")
-standata <- list(sens_early_prior=c(0.1,0.9),
+standata <- list(sens_early_prior=c(0.5,0.5),
                  sens_late_prior=c(0.5,0.5),
                  lamb_sum_prior=c(0.25,0.25),
                  lamb_end_prior=c(0.25,0.25),
@@ -163,7 +164,7 @@ standata <- list(sens_early_prior=c(0.1,0.9),
 sum(cdat$cstage!="Distant")
 sum(cdat$cstage=="Distant")
 
-fit_stan <- stan("ACS_sensitivity_early_late.stan",data=standata,chains = 4, iter = 4000)
+fit_stan <- stan("ACS_sensitivity_early_late.stan",data=standata,chains = 4, iter = 8000)
 print(fit_stan)
 
 
@@ -213,10 +214,10 @@ print(fit_stan)
 
 
 ###
-### Use uninformative prior
+### Use Jeffery prior for sensitivity
 ### 
 
-standata <- list(sens_early_prior=c(0.1,0.9),
+standata <- list(sens_early_prior=c(0.5,0.5),
                  sens_late_prior=c(0.5,0.5),
                  lamb_sum_prior=c(0.25,0.25),
                  lamb_end_prior=c(0.25,0.25),
@@ -232,7 +233,7 @@ standata <- list(sens_early_prior=c(0.1,0.9),
 sum(cdat$cstage!="Distant")
 sum(cdat$cstage=="Distant")
 
-fit_stan <- stan("ACS_sensitivity_early_late.stan",data=standata,chains = 4, iter = 4000)
+fit_stan <- stan("ACS_sensitivity_early_late.stan",data=standata,chains = 4, iter = 8000)
 print(fit_stan)
 
 
